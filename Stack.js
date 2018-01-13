@@ -5,6 +5,9 @@ var Stack =  function(type){
     else if (typeof(type)!=='string'){
         throw new TypeError('Please provide a type as a string (Surrounded by quotation marks).');
     }
+    else if (type.trim().length<=0){
+        throw new Error('Type is not valid');
+    }
     else {
         this.type = type;
         this.core = [];   
