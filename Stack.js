@@ -9,30 +9,50 @@ var Stack =  function(type){
         throw new Error('Type is not valid');
     }
     else {
+        let core = [];
         this.type = type;
-        this.core = [];   
+        this.push = function(val){
+            if(typeof(val)!==this.type){
+                throw new TypeError(`Value pushed to the stack must by of ${this.type} type.`);
+            }
+            else core.push(val);
+        };
+
+        this.pop = function(){
+            return core.pop();
+        };
+
+        this.toArray = function(){
+            return core;
+        };
+
+        this.addAll = function(elem){
+            if(typeof(elem)!=='object' && elem.length=== undefined){
+                throw new Error('addAll() accepts array as a parameter only');
+            }
+            for (var el of elem){
+                this.push(el);
+            }
+        };
+
+        this.isEmpty = function(){return core.length===0;}
+
+        this.peek = function(){
+            return core[core.length-1];
+        };
     }
 };
 
-Stack.prototype.push = function(val){
-    if(typeof(val)!==this.type){
-        throw new TypeError(`Value pushed to the stack must by of ${this.type} type.`);
+Stack.foreach = function(stack,callback){
+    if(stack.toArray === undefined){
+        throw new Error('Stack must be initialized');
     }
-    else this.core.push(val);
-};
-
-Stack.prototype.pop = function(){
-    return this.core.pop();
-};
-
-Stack.prototype.toArray = function(){
-    return this.core;
-};
-
-Stack.prototype.foreach = function(){
-    return this.core.forEach;
-};
-
-Stack.prototype.peek = function(){
-    return this.core[this.core.length-1];
+    else if (typeof(callback)!=='function'){
+        throw new Error('Must pass a callback function as a parameter');
+    }
+    else{
+        for (var s of stack.toArray()){
+            callback(s);
+        }
+    }
 };
