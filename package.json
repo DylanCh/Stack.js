@@ -1,0 +1,15 @@
+{
+  "name": "stack",
+  "version": "1.0.0",
+  "description": "Stack data structure in Java script",
+  "main": "Stack.js",
+  "scripts": {
+    "test": "node Stack.js"
+  },
+  "keywords": [
+    "datastructure",
+    "util"
+  ],
+  "author": "Hanjun Chen",
+  "license": "MIT"
+}
