@@ -16,7 +16,7 @@ var Stack =  function(type){
 
 Stack.prototype.push = function(val){
     if(typeof(val)!==this.type){
-        throw new TypeError(`Value pushed to the stack must by of ${typeof(this.type)} type.`);
+        throw new TypeError(`Value pushed to the stack must by of ${this.type} type.`);
     }
     else this.core.push(val);
 };
@@ -35,4 +35,4 @@ Stack.prototype.foreach = function(){
 
 Stack.prototype.peek = function(){
     return this.core[this.core.length-1];
-}
+};
