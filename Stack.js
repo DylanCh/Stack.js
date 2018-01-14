@@ -1,3 +1,7 @@
+'use strict';
+
+const TYPES = ['number','string','object','function','boolean'];
+
 var Stack =  function(type){
     if(type===null || type===undefined){
         throw new SyntaxError('Please specify a type');
@@ -5,14 +9,18 @@ var Stack =  function(type){
     else if (typeof(type)!=='string'){
         throw new TypeError('Please provide a type as a string (Surrounded by quotation marks).');
     }
-    else if (type.trim().length<=0){
-        throw new Error('Type is not valid');
+    else if (TYPES.indexOf(type)<0 || type.trim().length<=0){
+        throw new TypeError('Type is not valid. Please enter a number, string, object or function');
     }
     else {
         let core = [];
-        this.type = type;
+
+        this.getType = function(){
+            return type;
+        }
+
         this.push = function(val){
-            if(typeof(val)!==this.type){
+            if(typeof(val)!==type){
                 throw new TypeError(`Value pushed to the stack must by of ${this.type} type.`);
             }
             else core.push(val);
@@ -30,7 +38,11 @@ var Stack =  function(type){
             if(typeof(elem)!=='object' && elem.length=== undefined){
                 throw new Error('addAll() accepts array as a parameter only');
             }
-            for (var el of elem){
+            for (const el of elem){
+                if(!typeSafe) throw new TypeError(`Element ${el.toString()} does not meet type check.`);
+            }
+
+            for (const el of elem){
                 this.push(el);
             }
         };
@@ -43,6 +55,10 @@ var Stack =  function(type){
     }
 };
 
+for(const t of TYPES){
+    Stack[t] = t;
+}
+
 Stack.foreach = function(stack,callback){
     if(stack.toArray === undefined){
         throw new Error('Stack must be initialized');
@@ -51,7 +67,7 @@ Stack.foreach = function(stack,callback){
         throw new Error('Must pass a callback function as a parameter');
     }
     else{
-        for (var s of stack.toArray()){
+        for (const s of stack.toArray()){
             callback(s);
         }
     }
