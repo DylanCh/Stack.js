@@ -35,11 +35,12 @@ var Stack =  function(type){
         };
 
         this.addAll = function(elem){
-            if(typeof(elem)!=='object' && elem.length=== undefined){
+            if(typeof(elem)!=='object' && !elem.hasOwnProperty('length')){
                 throw new Error('addAll() accepts array as a parameter only');
             }
             for (const el of elem){
-                if(!typeSafe) throw new TypeError(`Element ${el.toString()} does not meet type check.`);
+                if(typeof(el)!==type) 
+                    throw new TypeError(`Element ${el.toString()} does not meet the type check.`);
             }
 
             for (const el of elem){
@@ -56,7 +57,11 @@ var Stack =  function(type){
 };
 
 for(const t of TYPES){
-    Stack[t] = t;
+    Stack[t.toUpperCase()] = t;
+}
+
+Stack.prototype.toString = function(){
+    return `[${this.toArray().join(',')}]`;
 }
 
 Stack.foreach = function(stack,callback){
