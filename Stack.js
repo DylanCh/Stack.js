@@ -35,9 +35,10 @@ var Stack =  function(type){
         };
 
         this.addAll = function(elem){
-            if(typeof(elem)!=='object' && !elem.hasOwnProperty('length')){
-                throw new Error('addAll() accepts array as a parameter only');
-            }
+
+            if(arguments.length>1)
+                elem = Array.prototype.slice.call(arguments);
+
             for (const el of elem){
                 if(typeof(el)!==type) 
                     throw new TypeError(`Element ${el.toString()} does not meet the type check.`);
